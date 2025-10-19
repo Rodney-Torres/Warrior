@@ -3,6 +3,9 @@
 
 #include "AbilitySystem/WarriorAttributeSet.h"
 #include "GameplayEffectExtension.h"
+#include "WarriorFunctionLibrary.h"
+#include "WarriorGameplayTags.h"
+
 #include "WarriorDebugHelper.h"
 
 UWarriorAttributeSet::UWarriorAttributeSet()
@@ -51,10 +54,9 @@ void UWarriorAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCal
 
 		//TODO:: Notify the UI
 
-		//TODO:: Handle Character Death
 		if (NewCurrentHealth == 0.f)
 		{
-
+			UWarriorFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), WarriorGameplayTags::Shared_Status_Dead);
 		}
 	}
 }
