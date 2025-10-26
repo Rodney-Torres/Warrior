@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AnimInstances/WarriorBaseAnimInstance.h"
+#include "KismetAnimationLibrary.h"
 #include "WarriorCharacterAnimInstance.generated.h"
 
 class AWarriorBaseCharacter;
@@ -33,4 +34,6 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
 	bool bHasAcceleration;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|LocomotionData")
+	float LocomotionDirection;
 };
