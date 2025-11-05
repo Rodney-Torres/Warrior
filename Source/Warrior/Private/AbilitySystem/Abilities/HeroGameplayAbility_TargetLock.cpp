@@ -10,6 +10,9 @@
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/SizeBox.h"
+#include "WarriorFunctionLibrary.h"
+#include "WarriorGameplayTags.h"
+#include "Kismet/KismetMathLibrary.h"
 
 #include "WarriorDebugHelper.h"
 
@@ -24,6 +27,39 @@ void UHeroGameplayAbility_TargetLock::EndAbility(const FGameplayAbilitySpecHandl
 	CleanUp();
 
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+}
+
+void UHeroGameplayAbility_TargetLock::OnTargetLockTick(float DeltaTime)
+{
+	if (!CurrentLockedActor || 
+		UWarriorFunctionLibrary::NativeDoesActorHaveTag(CurrentLockedActor, WarriorGameplayTags::Shared_Status_Dead) ||
+		UWarriorFunctionLibrary::NativeDoesActorHaveTag(GetHeroCharacterFromActorInfo(), WarriorGameplayTags::Shared_Status_Dead)
+		)
+	{
+		CancelTargetLockAbility();
+		return;
+	}
+
+	SetTargetLockWidgetPosition();
+
+	const bool bShouldOverrideRotation =
+		!UWarriorFunctionLibrary::NativeDoesActorHaveTag(GetHeroCharacterFromActorInfo(), WarriorGameplayTags::Player_Status_Rolling)
+		&&
+		!UWarriorFunctionLibrary::NativeDoesActorHaveTag(GetHeroCharacterFromActorInfo(), WarriorGameplayTags::Player_Status_Blocking);
+
+	if (bShouldOverrideRotation)
+	{
+		const FRotator LookAtRot = UKismetMathLibrary::FindLookAtRotation(
+			GetHeroCharacterFromActorInfo()->GetActorLocation(),
+			CurrentLockedActor->GetActorLocation()
+		);
+
+		const FRotator CurrentControlRot = GetHeroControllerFromActorInfo()->GetControlRotation();
+		const FRotator TargetRot = FMath::RInterpTo(CurrentControlRot, LookAtRot, DeltaTime, TargetLockRotationInterpSpeed);
+
+		GetHeroControllerFromActorInfo()->SetControlRotation(FRotator(TargetRot.Pitch, TargetRot.Yaw, 0.f));
+		GetHeroCharacterFromActorInfo()->SetActorRotation(FRotator(TargetRot.Pitch, TargetRot.Yaw, 0.f));
+	}
 }
 
 void UHeroGameplayAbility_TargetLock::TryLockOnTarget()
@@ -150,4 +186,8 @@ void UHeroGameplayAbility_TargetLock::CleanUp()
 	{
 		DrawnTargetLockWidget->RemoveFromParent();
 	}
+
+	DrawnTargetLockWidget = nullptr;
+
+	TargetLockWidgetSize = FVector2D::ZeroVector;
 }
