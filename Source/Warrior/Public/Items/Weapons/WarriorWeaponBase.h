@@ -37,6 +37,4 @@ protected:
 
 public:
 	FORCEINLINE UBoxComponent* GetWeaponCollisionBox() const {	return WeaponCollisionBox;}
-
-
 };
