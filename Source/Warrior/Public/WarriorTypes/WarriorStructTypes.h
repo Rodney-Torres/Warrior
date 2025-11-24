@@ -31,7 +31,7 @@ struct FWarriorHeroSpecialAbilitySet : public FWarriorHeroAbilitySet
 	
 	//Icon to fill for our special weapon ability
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSoftObjectPtr<UMaterialInterface> AbilityIconMaterial;
+	TSoftObjectPtr<UMaterialInterface> SoftAbilityIconMaterial;
 	
 	//This is something we need to make use of later. The meta specifier is to limit the amount of options we can select for tags in editor.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "Player.Cooldown"))
