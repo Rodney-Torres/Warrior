@@ -53,4 +53,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Warrior|FunctionLibrary")
 	static bool ApplyGameplayEffectSpecHandleToTargetActor(AActor* InInstigator, AActor* InTargetActor, const FGameplayEffectSpecHandle& InSpecHandle);
 
+	//static function for constructing the node in blueprint that performs a countdown.
+	//We use the UPARAM macro to change the display name to make it shorter in the output pins inside the node
+	UFUNCTION(BlueprintCallable, Category = "Warrior|FunctionLibrary", meta = (Latent, WorldContext = "WorldContextObject", LatentInfo = "LatentInfo", ExpandEnumAsExecs = "CountDownInput|CountDownOutput", TotalTime = "1.0", UpdateInterval = "0.1"))
+	static void CountDown(const UObject* WorldContextObject, float TotalTime, float UpdateInterval,
+		float& OutRemainingTime, EWarriorCountDownActionInput CountDownInput, 
+		UPARAM(DisplayName = "Output") EWarriorCountDownActionOutput& CountDownOutput, FLatentActionInfo LatentInfo);
+	
 };
