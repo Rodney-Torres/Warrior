@@ -3,7 +3,7 @@
 
 #include "WarriorTypes/WarriorCountDownAction.h"
 
-//Inside here we dont need to call the parent version since its not doing anything
+//Inside here we don't need to call the parent version since it's not doing anything
 void FWarriorCountDownAction::UpdateOperation(FLatentResponse& Response)
 {
 	//If this is true we end the action immediately. To do that we need to trigger the output pin cancelled on our node
