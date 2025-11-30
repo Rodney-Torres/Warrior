@@ -77,7 +77,7 @@ void UWarriorAbilitySystemComponent::GrantHeroWeaponAbilities(const TArray<FWarr
 		AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
 
 		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
-	}
+	} 
 }
 
 void UWarriorAbilitySystemComponent::RemoveGrantedHeroWeaponAbilities(UPARAM(ref)TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove)

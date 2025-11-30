@@ -21,5 +21,5 @@ public:
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "StartUpData", meta = (TitleProperty = "InputTag"))
-	TArray<FWarriorHeroAbilitySet> HeroStartUpAbilitySets;
+	TArray<FWarriorHeroAbilitySet>  HeroStartUpAbilitySets;
 };

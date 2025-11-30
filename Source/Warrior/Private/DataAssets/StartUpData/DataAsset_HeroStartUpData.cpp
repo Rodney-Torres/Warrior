@@ -2,7 +2,8 @@
 
 
 #include "DataAssets/StartUpData/DataAsset_HeroStartUpData.h"
-#include "AbilitySystem/Abilities/WarriorGameplayAbility.h"
+//This is the correct include for AbilityToGrant since AbilityToGrant is of type UWarriorHeroGameplayAbility and not UWarriorGameplayAbility
+#include "AbilitySystem/Abilities/WarriorHeroGameplayAbility.h"
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
 
 void UDataAsset_HeroStartUpData::GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
@@ -13,6 +14,7 @@ void UDataAsset_HeroStartUpData::GiveToAbilitySystemComponent(UWarriorAbilitySys
 	{
 		if (!AbilitySet.IsValid()) continue;
 
+		//I had a huge error in this line, and it was because the include was wrong above.
 		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
 		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
 		AbilitySpec.Level = ApplyLevel;

@@ -14,9 +14,10 @@ USTRUCT(BlueprintType)
 struct FWarriorHeroAbilitySet
 {
 	GENERATED_BODY()
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "InputTag"))
 	FGameplayTag InputTag;
-
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UWarriorHeroGameplayAbility> AbilityToGrant;
 
