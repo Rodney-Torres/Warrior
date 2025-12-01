@@ -25,6 +25,10 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void CollectStones();
 	
+	//Function called after we recieve the gameplay event
+	UFUNCTION(BlueprintCallable)
+	void ConsumeStones();
+	
 private:
 	//float variable to extend the trace downwards
 	UPROPERTY(EditDefaultsOnly)

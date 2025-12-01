@@ -63,3 +63,25 @@ void UHeroGameplayAbility_PickUpStones::CollectStones()
 		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
 	}
 }
+
+void UHeroGameplayAbility_PickUpStones::ConsumeStones()
+{
+	//If this array is empty there are no more stones in the level
+	if (CollectedStones.IsEmpty())
+	{
+		//We cancel the ability
+		CancelAbility(GetCurrentAbilitySpecHandle(), GetCurrentActorInfo(), GetCurrentActivationInfo(), true);
+		return;
+	}
+	
+	//Range based for loop that goes through the array of CollectedStones
+	for (AWarriorStoneBase* CollectedStone : CollectedStones)
+	{
+		//Check if collected stone is valid
+		if (CollectedStone)
+		{
+			//Call the consume function from our stone class
+			CollectedStone->Consume(GetWarriorAbilitySystemComponentFromActorInfo(), GetAbilityLevel());	
+		}
+	}
+}

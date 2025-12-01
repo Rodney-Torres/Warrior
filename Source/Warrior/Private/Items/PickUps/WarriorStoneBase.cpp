@@ -6,9 +6,28 @@
 #include "AbilitySystem/WarriorAbilitySystemComponent.h"
 #include "WarriorGameplayTags.h"
 
+void AWarriorStoneBase::Consume(UWarriorAbilitySystemComponent* AbilitySystemComponent, int32 ApplyLevel)
+{
+	//Before we apply the GE we need to make sure the StoneGameplayEffectClass is valid
+	check(StoneGameplayEffectClass);
+	
+	//Then we retrieve the class default object from this effect class through a template function and store it in a local variable
+	UGameplayEffect* EffectCDO = StoneGameplayEffectClass->GetDefaultObject<UGameplayEffect>();
+	
+	//So we apply the effect to the hero character here
+	AbilitySystemComponent->ApplyGameplayEffectToSelf(
+		EffectCDO, //GameplayEffect we want to apply which is decided beforehand
+		ApplyLevel, //Function input
+		AbilitySystemComponent->MakeEffectContext() // using ASC to make this variable (I dont know what EffectContext is)
+	);
+	
+	//Call the BP event to handle VFX and SFX
+	BP_OnStoneConsumed();
+}
+
 void AWarriorStoneBase::OnPickUpCollisionSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent,
-	AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
-	const FHitResult& SweepResult)
+                                                            AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+                                                            const FHitResult& SweepResult)
 {
 	// Rider added - Super::OnPickUpCollisionSphereBeginOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 	
