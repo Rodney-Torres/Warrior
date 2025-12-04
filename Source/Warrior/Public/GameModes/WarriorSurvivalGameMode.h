@@ -68,8 +68,11 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 	
 private:
-	//Setter for setting our current survival game mode state and this is not something we need outside of this class its for easy access in this one
+	//Setter for setting our current survival game mode state and this is not something we need outside of this class it's for easy access in this one
 	void SetCurrentSurvivalGameModeState(EWarriorSurvivalGameModeState InState);
+	
+	//Function for checking if we finished all waves. This was done for better readability since it's done in multiple places
+	bool HasFinishedAllWaves() const;
 	
 	//Variable used to keep track of the current state
 	UPROPERTY()
@@ -83,4 +86,28 @@ private:
 	//Later we need to create this data table in the editor and assign it in BP
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	UDataTable* EnemyWaveSpawnerDataTable;
+	
+	//This is not something we can edit in BP. Variable to store total waves in DT
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	int32 TotalWavesToSpawn;
+	
+	//Variable to increment every wave and check if it's greater than our total waves
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	int32 CurrentWaveCount = 1;
+	
+	//To keep track of the elapsed time
+	UPROPERTY()
+	float TimePassedSinceStart = 0.f;
+	
+	//Countdown for spawning a new wave. We will display this on our widget
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	float SpawnNewWaveWaitTime = 5.f;
+	
+	//Mainly for waiting for the widget to dissapear and spawning the enemies
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	float SpawnEnemiesDelayTime = 2.f;
+	
+	//Mainly for waiting after the wave has completed
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	float WaveCompletedWaitTime = 5.f;
 };
