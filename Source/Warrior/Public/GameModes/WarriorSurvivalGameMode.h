@@ -74,6 +74,20 @@ private:
 	//Function for checking if we finished all waves. This was done for better readability since it's done in multiple places
 	bool HasFinishedAllWaves() const;
 	
+	//Function involved in preloading enemy classes
+	void PreLoadNextWaveEnemies();
+	
+	//Helper function for retrieving the row inside a data table
+	FWarriorEnemyWaveSpawnerTableRow* GetCurrentWaveSpawnerTableRow() const;
+	
+	int32 TrySpawnWaveEnemies();
+	
+	//Were going to also check if we have spawned enough through this helper function
+	bool ShouldKeepSpawnEnemies() const;
+	
+	UFUNCTION()
+	void OnEnemyDestroyed(AActor* DestroyedActor);
+	
 	//Variable used to keep track of the current state
 	UPROPERTY()
 	EWarriorSurvivalGameModeState CurrentSurvivalGameModeState;
@@ -95,6 +109,15 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	int32 CurrentWaveCount = 1;
 	
+	UPROPERTY()
+	int32 CurrentSpawnedEnemiesCounter = 0;
+	
+	UPROPERTY()
+	int32 TotalSpawnedEnemiesThisWaveCounter = 0;
+	
+	UPROPERTY()
+	TArray<AActor*> TargetPointsArray;
+	
 	//To keep track of the elapsed time
 	UPROPERTY()
 	float TimePassedSinceStart = 0.f;
@@ -110,4 +133,8 @@ private:
 	//Mainly for waiting after the wave has completed
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	float WaveCompletedWaitTime = 5.f;
+	
+	//Member variable for storing the enemy class
+	UPROPERTY()
+	TMap< TSoftClassPtr < AWarriorEnemyCharacter >, UClass* > PreLoadedEnemyClassMap;
 };
