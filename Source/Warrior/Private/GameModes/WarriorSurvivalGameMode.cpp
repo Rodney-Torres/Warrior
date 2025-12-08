@@ -263,3 +263,19 @@ void AWarriorSurvivalGameMode::OnEnemyDestroyed(AActor* DestroyedActor)
 		SetCurrentSurvivalGameModeState(EWarriorSurvivalGameModeState::WaveCompleted);
 	}
 }
+
+void AWarriorSurvivalGameMode::RegisterSpawnedEnemies(const TArray<AWarriorEnemyCharacter*>& InEnemiesToRegister)
+{
+	//loop through array for SpawnedEnemy
+	for (AWarriorEnemyCharacter* SpawnedEnemy : InEnemiesToRegister)
+	{
+		//if it is valid
+		if (SpawnedEnemy)
+		{
+			//add to counter
+			CurrentSpawnedEnemiesCounter++;
+			//bind the spawned enemy to this delegate that handles enemy death in gamemode
+			SpawnedEnemy->OnDestroyed.AddUniqueDynamic(this, &ThisClass::OnEnemyDestroyed);
+		}
+	}
+}

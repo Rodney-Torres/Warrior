@@ -126,8 +126,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	float SpawnNewWaveWaitTime = 5.f;
 	
-	//Mainly for waiting for the widget to dissapear and spawning the enemies
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
+	//Mainly for waiting for the widget to dissapear and spawning the enemies. Changed this to BlueprintReadWrite 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "WaveDefinition", meta = (AllowPrivateAccess = "true"))
 	float SpawnEnemiesDelayTime = 2.f;
 	
 	//Mainly for waiting after the wave has completed
@@ -137,4 +137,8 @@ private:
 	//Member variable for storing the enemy class
 	UPROPERTY()
 	TMap< TSoftClassPtr < AWarriorEnemyCharacter >, UClass* > PreLoadedEnemyClassMap;
+	
+public:
+	UFUNCTION(BlueprintCallable)
+	void RegisterSpawnedEnemies(const TArray<AWarriorEnemyCharacter*>& InEnemiesToRegister);
 };
