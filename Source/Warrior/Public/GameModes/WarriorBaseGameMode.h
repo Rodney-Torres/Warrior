@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "WarriorTypes/WarriorEnumTypes.h"
 #include "WarriorBaseGameMode.generated.h"
 
 /**
@@ -17,4 +18,12 @@ class WARRIOR_API AWarriorBaseGameMode : public AGameModeBase
 public:
 	//Created a constructor, this was for adding tick to the parent class of our survival game mode. Since it wasnt working
 	AWarriorBaseGameMode();
+	
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Game Settings")
+	EWarriorGameDifficulty CurrentGameDifficulty;
+	
+public:
+	//getter for CurrentGameDifficulty
+	FORCEINLINE EWarriorGameDifficulty GetCurrentGameDifficulty() const { return CurrentGameDifficulty; }
 };
