@@ -9,6 +9,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "WarriorGameplayTags.h"
 #include "WarriorTypes/WarriorCountDownAction.h"
+#include "WarriorGameInstance.h"
 
 #include "WarriorDebugHelper.h"
 
@@ -207,6 +208,20 @@ void UWarriorFunctionLibrary::CountDown(const UObject* WorldContextObject, float
         }
     }
     
+}
+
+//getting game instance helper function for widget buttons to retrieve and load this game instance when pressed
+UWarriorGameInstance* UWarriorFunctionLibrary::GetWarriorGameInstance(const UObject* WorldContextObject)
+{
+    if (GEngine)
+    {
+        if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+        {
+            return World->GetGameInstance<UWarriorGameInstance>();
+        }
+    }
+    
+    return nullptr;
 }
 
 
