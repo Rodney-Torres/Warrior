@@ -7,6 +7,7 @@
 #include "WarriorSurvivalGameMode.generated.h"
 
 class AWarriorEnemyCharacter;
+
 //Enum for state of the game mode
 UENUM(BlueprintType)
 enum class EWarriorSurvivalGameModeState : uint8

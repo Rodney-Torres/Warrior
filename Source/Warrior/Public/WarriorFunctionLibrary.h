@@ -9,8 +9,8 @@
 
 class UWarriorAbilitySystemComponent;
 class UPawnCombatComponent;
-class UWarriorGameInstance;
 struct FScalableFloat;
+class UWarriorGameInstance;
 
 /**
  * 
@@ -63,4 +63,8 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = "Warrior|FunctionLibrary", meta = (WorldContext = "WorldContextObject"))
 	static UWarriorGameInstance* GetWarriorGameInstance(const UObject* WorldContextObject);
+	
+	//For toggling input mode with 2 enum states
+	UFUNCTION(BlueprintCallable, Category = "Warrior|FunctionLibrary", meta = (WorldContext = "WorldContextObject"))
+	static void ToggleInputMode(const UObject* WorldContextObject, EWarriorInputMode InInputMode);
 };

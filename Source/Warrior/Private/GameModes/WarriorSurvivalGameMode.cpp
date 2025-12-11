@@ -170,6 +170,10 @@ int32 AWarriorSurvivalGameMode::TrySpawnWaveEnemies()
 	checkf(!TargetPointsArray.IsEmpty(), TEXT("No valid target point found in level %s for spawning enemies"), *GetWorld()->GetName());
 	
 	uint32 EnemiesSpawnedThisTime = 0;
+	
+	//Spawn params for spawning the enemies, all we do is change the collision handling override
+	FActorSpawnParameters SpawnParam;
+	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
 	//Retrieving current table row for spawning here and looping through it.
 	for (const FWarriorEnemyWaveSpawnerInfo& SpawnerInfo : GetCurrentWaveSpawnerTableRow()->EnemyWaveSpawnerDefinitions)
@@ -183,10 +187,6 @@ int32 AWarriorSurvivalGameMode::TrySpawnWaveEnemies()
 		//here we retrieve the enemy class to spawn by accessing the TMap we created and store it in a local variable
 		//Using FingChecked triggers a assertion if there is no valid value with the key
 		UClass* LoadedEnemyClass = PreLoadedEnemyClassMap.FindChecked(SpawnerInfo.SoftEnemyClassToSpawn);
-
-		//Spawn params for spawning the enemies, all we do is change the collision handling override
-		FActorSpawnParameters SpawnParam;
-		SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 		
 		//First time I remember using a loop like this 
 		for (int32 i = 0; i < NumToSpawn; ++i)

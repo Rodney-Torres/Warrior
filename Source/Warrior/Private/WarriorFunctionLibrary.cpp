@@ -224,5 +224,52 @@ UWarriorGameInstance* UWarriorFunctionLibrary::GetWarriorGameInstance(const UObj
     return nullptr;
 }
 
+void UWarriorFunctionLibrary::ToggleInputMode(const UObject* WorldContextObject, EWarriorInputMode InInputMode)
+{
+    //creating local variable that is empty for the PlayerController
+    APlayerController* PlayerController = nullptr;
+
+    if (GEngine)
+    {
+        //use g engine to retrieve the world from the world context object
+        if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+        {
+            //use world to retrieve the player controller and set it as the PlayerController local variable
+            PlayerController = World->GetFirstPlayerController();
+        }
+    }
+
+    //return early if not valid
+    if (!PlayerController)
+    {
+        return;
+    }
+    
+    //To satisfy our function SetInputMode param we will create a FInputModeGameOnly variable here
+    FInputModeGameOnly GameOnlyMode;
+    FInputModeUIOnly UIOnlyMode;
+    
+    //now after these checks we can start to toggle our input modes using a switch case
+    switch (InInputMode)
+    {
+    case EWarriorInputMode::GameOnly:
+        
+        //Set input mode and set mouse cursor bool
+        PlayerController->SetInputMode(GameOnlyMode);
+        PlayerController->bShowMouseCursor = false;
+        
+        break;
+    case EWarriorInputMode::UIOnly:
+        
+        //Set input mode and set mouse cursor bool
+        PlayerController->SetInputMode(UIOnlyMode);
+        PlayerController->bShowMouseCursor = true;
+        
+        break;
+    default:
+        break;
+    }
+}
+
 
 
