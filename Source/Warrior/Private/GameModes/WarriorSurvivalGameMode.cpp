@@ -7,8 +7,24 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/TargetPoint.h"
 #include "NavigationSystem.h"
+#include "WarriorFunctionLibrary.h"
 
 #include "WarriorDebugHelper.h"
+
+//Local variable for the out param in the function TryLoadSavedGameDifficulty
+//Now we can start to synch our game difficulty
+//Now we can use the saved data to set our variable CurrentGameDifficulty
+void AWarriorSurvivalGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+	
+	EWarriorGameDifficulty SavedGameDifficulty;
+	
+	if (UWarriorFunctionLibrary::TryLoadSavedGameDifficulty(SavedGameDifficulty))
+	{
+		CurrentGameDifficulty = SavedGameDifficulty;
+	}
+}
 
 void AWarriorSurvivalGameMode::BeginPlay()
 {

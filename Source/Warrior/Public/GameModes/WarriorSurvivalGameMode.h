@@ -63,6 +63,8 @@ class WARRIOR_API AWarriorSurvivalGameMode : public AWarriorBaseGameMode
 	GENERATED_BODY()
 	
 protected:
+	//This initializing the properties related to our game and it happens before actors are spawned.
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 	//Used to kick off the game loop
 	virtual void BeginPlay() override;
 	//Used to handle wave progression
