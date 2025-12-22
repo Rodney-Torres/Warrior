@@ -37,7 +37,16 @@ class WARRIOR_API UWarriorGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 	
+	//2 publics here im not sure why. probably a mistake from lectures
+public:
+	//Function involved in our loading screen
+	virtual void Init() override;
+	
 protected:
+	//delegates for our loading screen
+	virtual void OnPreLoadMap (const FString& MapName);
+	virtual void OnDestinationWorldLoaded(UWorld* LoadedWorld);
+	
 	//Array of our struct which we will need to assign valid levels to in our editor later
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<FWarriorGameLevelSet> GameLevelSets;
